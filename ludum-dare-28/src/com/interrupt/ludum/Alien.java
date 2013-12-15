@@ -28,7 +28,7 @@ public class Alien implements ApplicationListener {
 	private ArrayMap<String, TextureRegion> textureRegions = new ArrayMap<String, TextureRegion>();
 	private DecalBatch decalBatch;
 	private Entity alien;
-	private Random random = new Random();
+	public Random random = new Random();
 	private Input input = new Input();
 	
 	private PlaneGroupStrategy decalDrawingStrategy;
@@ -37,6 +37,7 @@ public class Alien implements ApplicationListener {
 	Vector3 cameraChase = new Vector3();
 	
 	public Array<Entity> entities = new Array<Entity>();
+	public Array<Entity> staticEntities = new Array<Entity>();
 	
 	@Override
 	public void create() {		
@@ -58,8 +59,8 @@ public class Alien implements ApplicationListener {
 		alien.isSolid = true;
 		entities.add(alien);
 		
-		float levelWidth = 200;
-		int numEntities = 4;
+		float levelWidth = 100;
+		int numEntities = 2;
 		
 		for(int i = 0; i < 100 * numEntities; i++) {
 			Entity spire = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/spire1.png"), makeRegion("data/spire1-shadow.png"), new Vector3(1f,0,0), 2f);
@@ -78,31 +79,37 @@ public class Alien implements ApplicationListener {
 		for(int i = 0; i < 55 * numEntities; i++) {
 			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/shadow1.png"));
 			shadow.size = (1.5f + random.nextFloat() * 2f);
-			entities.add(shadow);
+			staticEntities.add(shadow);
 		}
 		
 		for(int i = 0; i < 75 * numEntities; i++) {
 			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/shadow2.png"));
 			shadow.size = (0.5f + random.nextFloat()) * 0.5f;
-			entities.add(shadow);
+			staticEntities.add(shadow);
 		}
 		
 		for(int i = 0; i < 85 * numEntities; i++) {
 			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/shadow3.png"));
 			shadow.size = (0.1f + random.nextFloat()) * 0.2f;
-			entities.add(shadow);
+			staticEntities.add(shadow);
 		}
 		
-		for(int i = 0; i < 85 * numEntities; i++) {
+		for(int i = 0; i < 100 * numEntities; i++) {
 			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/rock1.png"));
 			shadow.size = (0.1f + random.nextFloat() * 0.6f);
-			entities.add(shadow);
+			staticEntities.add(shadow);
 		}
 		
-		for(int i = 0; i < 185 * numEntities; i++) {
+		for(int i = 0; i < 220 * numEntities; i++) {
 			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/rock1.png"));
 			shadow.size = (0.1f + random.nextFloat() * 0.1f);
-			entities.add(shadow);
+			staticEntities.add(shadow);
+		}
+		
+		for(int i = 0; i < 70 * numEntities; i++) {
+			Cat cat = new Cat(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/cat.png"), makeRegion("data/shadow.png"), null, 0.7f);
+			cat.size = (0.85f);
+			entities.add(cat);
 		}
 	}
 
@@ -114,7 +121,9 @@ public class Alien implements ApplicationListener {
 	@Override
 	public void render() {
 		
-		tick(Gdx.graphics.getDeltaTime() * 60f);
+		float delta = Gdx.graphics.getDeltaTime() * 60f;
+		
+		tick(delta);
 		
 		Gdx.gl.glClearColor(0.45882352941176f, 0.25882352941176f, 0.23137254901961f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -142,7 +151,17 @@ public class Alien implements ApplicationListener {
 		decalDrawingStrategy.enableDepthTest = false;
 		decalBatch.flush();
 		
-		// draw stuff
+		// draw static stuff
+		for(int i = 0; i < staticEntities.size; i++) {
+			Entity entity = staticEntities.get(i); 
+			if(entity.decal != null) {
+				entity.tick(delta, this);
+				Decal decal = entity.decal;
+				decalBatch.add(decal);
+			}
+		}
+		
+		// draw dynamic stuff
 		for(int i = 0; i < entities.size; i++) {
 			Entity entity = entities.get(i); 
 			if(entity.decal != null) {
@@ -158,18 +177,20 @@ public class Alien implements ApplicationListener {
 	public void tick(float delta) {
 		
 		if(input.isKeyDown(Keys.RIGHT))
-			alien.velocity.x += alien.isOnGround ? 0.009f : 0.002f;
+			alien.velocity.x += (alien.isOnGround ? 0.009f : 0.002f) * delta;
 		if(input.isKeyDown(Keys.LEFT))
-			alien.velocity.x -= alien.isOnGround ? 0.009f : 0.002f;
+			alien.velocity.x -= (alien.isOnGround ? 0.009f : 0.002f) * delta;
 		if(input.isKeyDown(Keys.UP))
-			alien.velocity.y += alien.isOnGround ? 0.009f : 0.002f;
+			alien.velocity.y += (alien.isOnGround ? 0.009f : 0.002f) * delta;
 		if(input.isKeyDown(Keys.DOWN))
-			alien.velocity.y -= alien.isOnGround ? 0.009f : 0.002f;
+			alien.velocity.y -= (alien.isOnGround ? 0.009f : 0.002f) * delta;
 		if(input.isKeyDown(Keys.SPACE))
 			alien.velocity.z = 0.06f;
 		
+		// tick entities
 		for(int i = 0; i < entities.size; i++) {
-			entities.get(i).tick(delta, this);
+			Entity entity = entities.get(i);
+			entity.tick(delta, this);
 		}
 		
 		input.tick();

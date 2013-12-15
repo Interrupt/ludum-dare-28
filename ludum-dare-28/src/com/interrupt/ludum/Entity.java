@@ -21,7 +21,8 @@ public class Entity {
 	
 	public boolean isSolid = false;
 	
-	public boolean isOnGround = false;
+	public boolean onEntity = false;
+	public boolean isOnGround = true;
 	
 	public Entity(Vector3 position, TextureRegion region) {
 		this.position.set(position);
@@ -43,7 +44,7 @@ public class Entity {
 
 	public void tick(float delta, Alien level) {
 		
-		boolean onEntity = false;
+		onEntity = false;
 		
 		// gravity
 		if(position.z > 0) {
@@ -78,8 +79,8 @@ public class Entity {
 		
 		if(onEntity) {
 			// entity friction
-			velocity.x *= 0.9f * delta;
-			velocity.y *= 0.9f * delta;
+			velocity.x *= (0.9f * delta);
+			velocity.y *= (0.9f * delta);
 			velocity.z = 0;
 			
 			isOnGround = true;
@@ -90,16 +91,16 @@ public class Entity {
 				position.z = 0;
 	
 				// ground friction
-				velocity.x *= 0.9f * delta;
-				velocity.y *= 0.9f * delta;
+				velocity.x *= (0.9f * delta);
+				velocity.y *= (0.9f * delta);
 				velocity.z = 0;
 				
 				isOnGround = true;
 			}
 			else {
 				// air friction
-				velocity.x *= 0.995f * delta;
-				velocity.y *= 0.995f * delta;
+				velocity.x *= (0.995f * delta);
+				velocity.y *= (0.995f * delta);
 				
 				isOnGround = false;
 			}
