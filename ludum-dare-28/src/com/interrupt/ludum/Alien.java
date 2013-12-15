@@ -63,45 +63,45 @@ public class Alien implements ApplicationListener {
 		int numEntities = 2;
 		
 		for(int i = 0; i < 100 * numEntities; i++) {
-			Entity spire = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/spire1.png"), makeRegion("data/spire1-shadow.png"), new Vector3(1f,0,0), 2f);
+			Entity spire = new StaticEntity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/spire1.png"), makeRegion("data/spire1-shadow.png"), new Vector3(1f,0,0), 2f);
 			spire.size = 1f + random.nextFloat();
 			spire.isSolid = true;
 			entities.add(spire);
 		}
 		
 		for(int i = 0; i < 3 * numEntities; i++) {
-			Entity spire = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/spire1.png"), makeRegion("data/spire1-shadow.png"), new Vector3(1f,0,0), 2f);
+			Entity spire = new StaticEntity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/spire1.png"), makeRegion("data/spire1-shadow.png"), new Vector3(1f,0,0), 2f);
 			spire.size = 3f + random.nextFloat() * 2f;
 			spire.isSolid = true;
 			entities.add(spire);
 		}
 		
-		for(int i = 0; i < 55 * numEntities; i++) {
-			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/shadow1.png"));
+		for(int i = 0; i < 65 * numEntities; i++) {
+			Entity shadow = new StaticEntity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/shadow1.png"));
 			shadow.size = (1.5f + random.nextFloat() * 2f);
 			staticEntities.add(shadow);
 		}
 		
-		for(int i = 0; i < 75 * numEntities; i++) {
-			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/shadow2.png"));
+		for(int i = 0; i < 95 * numEntities; i++) {
+			Entity shadow = new StaticEntity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/shadow2.png"));
 			shadow.size = (0.5f + random.nextFloat()) * 0.5f;
 			staticEntities.add(shadow);
 		}
 		
-		for(int i = 0; i < 85 * numEntities; i++) {
-			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/shadow3.png"));
+		for(int i = 0; i < 95 * numEntities; i++) {
+			Entity shadow = new StaticEntity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/shadow3.png"));
 			shadow.size = (0.1f + random.nextFloat()) * 0.2f;
 			staticEntities.add(shadow);
 		}
 		
-		for(int i = 0; i < 100 * numEntities; i++) {
-			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/rock1.png"));
+		for(int i = 0; i < 150 * numEntities; i++) {
+			Entity shadow = new StaticEntity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/rock1.png"));
 			shadow.size = (0.1f + random.nextFloat() * 0.6f);
 			staticEntities.add(shadow);
 		}
 		
-		for(int i = 0; i < 220 * numEntities; i++) {
-			Entity shadow = new Entity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/rock1.png"));
+		for(int i = 0; i < 320 * numEntities; i++) {
+			Entity shadow = new StaticEntity(new Vector3((random.nextFloat() - 0.5f) * levelWidth,(random.nextFloat() - 0.5f) * levelWidth,0), makeRegion("data/rock1.png"));
 			shadow.size = (0.1f + random.nextFloat() * 0.1f);
 			staticEntities.add(shadow);
 		}
